@@ -52,9 +52,10 @@ contract ReserveRightsToken is ERC20Pausable {
     0x657a127639b9e0ccccfbe795a8e394d5ca158526
   ];
 
-  constructor(address previousContract, address reservePrimaryWallet) public {
-    IERC20 previousToken = IERC20(previousContract);
+  constructor() public {
+    IERC20 previousToken = IERC20(0xc2646eda7c2d4bf131561141c1d5696c4f01eb53);
 
+    address reservePrimaryWallet = 0xfa3bd0b2ac6e63f16d16d7e449418837a8a3ae27;
     _mint(reservePrimaryWallet, previousToken.balanceOf(reservePrimaryWallet));
 
     for (uint i = 0; i < previousAddresses.length; i++) {
