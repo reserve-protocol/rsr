@@ -7,8 +7,8 @@ ReserveRights.sol is an ERC20 token that represents the cryptographic right to p
 
 ## TokenVesting.sol
 
-TokenVesting.sol is a contract we use to distribute tokens according to a linear vesting schedule. It is based off of the OpenZeppelin TokenVesting.sol contract that was part of their version 2.0.0 August 2018 audit and subsequently improved. Taken at commit 4115686b4f8c1abf29f1f855eb15308076159959. 
+TokenVesting.sol is a contract we use to distribute tokens according to a linear vesting schedule. It is a variant of the OpenZeppelin contract from their version 2.0.0 August 2018 audit, taken at commit 4115686b4f8c1abf29f1f855eb15308076159959. 
 
 ## SlowWallet.sol
 
-SlowWallet.sol is a contract we use to prevent the foundation from taking actions without giving the community notice. More precisely, it delays transfers out of the wallet by 2 weeks. 
+SlowWallet.sol is a contract we use to prevent Reserve from transferring tokens out of the Reserve main wallet unexpectedly. More precisely, it delays transfers out of the wallet by 2 weeks. 
