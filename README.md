@@ -5,7 +5,7 @@ This repo contains the code for the Reserve Rights token (RSR) and some associat
 
 ReserveRights.sol is an ERC20 token that represents the cryptographic right to purchase the excess Reserve tokens produced by the Reserve protocol. Alongside ERC-20 and full-token pausing, it supports specifying addresses deliberately to be locked forever. See https://reserve.org for more information.
 
-[Etherscan](https://etherscan.io/token/0x5699dbfe52146465074e2331046e941262f0446f#balances)
+[Etherscan](https://etherscan.io/token/0x216f5344ebac65c9a5e5d0aa3f8737204d775d89)
 
 ## TokenVesting.sol
 
