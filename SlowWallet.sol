@@ -47,8 +47,8 @@ contract SlowWallet {
         uint256 delayUntil,
         string notes
     );
-    event TransferConfirmed(uint256 index, address indexed destination, uint256 value);
-    event TransferCancelled(uint256 index, address indexed destination, uint256 value);
+    event TransferConfirmed(uint256 index, address indexed destination, uint256 value, string notes);
+    event TransferCancelled(uint256 index, address indexed destination, uint256 value, string notes);
     event AllTransfersCancelled();
 
     // FUNCTIONALITY
@@ -111,7 +111,7 @@ contract SlowWallet {
 
         // Cancel transfer.
         proposals[index].closed = true;
-        emit TransferCancelled(index, addr, value);
+        emit TransferCancelled(index, addr, value, proposals[index].notes);
     }
 
     /// Cancel all transfer proposals.
@@ -131,7 +131,7 @@ contract SlowWallet {
 
         // Record execution of transfer.
         proposals[index].closed = true;
-        emit TransferConfirmed(index, destination, value);
+        emit TransferConfirmed(index, destination, value, proposals[index].notes);
 
         // Proceed with execution of transfer.
         token.transfer(destination, value);
