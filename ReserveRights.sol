@@ -52,10 +52,9 @@ contract ReserveRightsToken is ERC20Pausable {
     0x657a127639b9e0ccccfbe795a8e394d5ca158526
   ];
 
-  constructor() public {
-    IERC20 previousToken = IERC20(0xc2646eda7c2d4bf131561141c1d5696c4f01eb53);
+  constructor(address previousContract, address reservePrimaryWallet) public {
+    IERC20 previousToken = IERC20(previousContract);
 
-    address reservePrimaryWallet = 0xfa3bd0b2ac6e63f16d16d7e449418837a8a3ae27;
     _mint(reservePrimaryWallet, previousToken.balanceOf(reservePrimaryWallet));
 
     for (uint i = 0; i < previousAddresses.length; i++) {
@@ -68,13 +67,13 @@ contract ReserveRightsToken is ERC20Pausable {
   function transfer(address to, uint256 value) public returns (bool) {
     // Tokens belonging to Reserve team members and early investors are locked until network launch.
     require(!reserveTeamMemberOrEarlyInvestor[msg.sender]);
-    super.transfer(to, value);
+    return super.transfer(to, value);
   }
 
   function transferFrom(address from, address to, uint256 value) public returns (bool) {
     // Tokens belonging to Reserve team members and early investors are locked until network launch.
     require(!reserveTeamMemberOrEarlyInvestor[from]);
-    super.transferFrom(from, to, value);
+    return super.transferFrom(from, to, value);
   }
 
   /// This function is intended to be used only by Reserve team members and investors.
