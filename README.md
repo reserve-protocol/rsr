@@ -13,4 +13,4 @@ TokenVesting.sol is a contract we use to distribute tokens according to a linear
 
 ## SlowWallet.sol
 
-SlowWallet.sol is a contract we use to prevent Reserve from transferring tokens out of the Reserve main wallet unexpectedly. More precisely, it delays transfers out of the wallet by 2 weeks. 
+SlowWallet.sol is a contract we use to prevent Reserve from transferring tokens out of the Reserve main wallet unexpectedly. More precisely, it delays transfers out of the wallet by 2 weeks. It is based off a contract we got audited with Trail of Bits. 
