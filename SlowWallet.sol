@@ -37,6 +37,7 @@ contract SlowWallet {
     address public owner;
 
     // PROPOSALS
+    
     mapping (uint256 => TransferProposal) public proposals;
     uint256 public proposalsLength;
 
