@@ -36,7 +36,9 @@ contract SlowWallet {
     uint256 public constant delay = 2 weeks;
     address public owner;
 
-    TransferProposal[] public proposals;
+    // PROPOSALS
+    mapping (uint256 => TransferProposal) public proposals;
+    uint256 public proposalsLength;
 
     // EVENTS
 
@@ -65,9 +67,10 @@ contract SlowWallet {
 
     /// The earliest that funds could possibly move from this account,
     /// expressed in seconds after the current block.
+    /// Do not call from a contract. 
     function earliestPossibleTransfer() external view returns (uint256) {
         uint256 minimumDelay = delay;
-        for (uint i = 0; i < proposals.length; i++) {
+        for (uint i = 0; i < proposalsLength; i++) {
             if (proposals[i].closed) {
                 continue;
             }
@@ -93,15 +96,16 @@ contract SlowWallet {
         // solium-disable-next-line security/no-block-members
         uint256 delayUntil = now + delay;
 
-        proposals.push(TransferProposal({
+        proposals[proposalsLength] = TransferProposal({
             destination: destination,
             value: value,
             time: delayUntil,
             notes: notes,
             closed: false
-        }));
+        });
+        proposalsLength++;
 
-        emit TransferProposed(proposals.length - 1, destination, value, delayUntil, notes);
+        emit TransferProposed(proposalsLength-1, destination, value, delayUntil, notes);
     }
 
     /// Cancel a proposed transfer.
@@ -116,7 +120,7 @@ contract SlowWallet {
 
     /// Cancel all transfer proposals.
     function cancelAll() external onlyOwner {
-        proposals.length = 0;
+        proposalsLength = 0;
         emit AllTransfersCancelled();
     }
 
@@ -139,6 +143,7 @@ contract SlowWallet {
 
     /// Throw unless the given transfer proposal exists and matches `destination` and `value`.
     function requireMatchingOpenProposal(uint256 index, address destination, uint256 value) private view {
+        require(index < proposalsLength);
         require(!proposals[index].closed, "transfer already closed");
 
         // Slither reports "dangerous strict equality" for each of these, but it's OK.
