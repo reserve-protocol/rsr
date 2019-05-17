@@ -89,13 +89,13 @@ contract SlowWallet {
     }
 
     /// Cancel a proposed transfer.
-    function cancel(uint256 index, address addr, uint256 value) external onlyOwner {
+    function cancel(uint256 index, address destination, uint256 value) external onlyOwner {
         // Check authorization.
-        requireMatchingOpenProposal(index, addr, value);
+        requireMatchingOpenProposal(index, destination, value);
 
         // Cancel transfer.
         proposals[index].closed = true;
-        emit TransferCancelled(index, addr, value, proposals[index].notes);
+        emit TransferCancelled(index, destination, value, proposals[index].notes);
     }
 
     /// Cancel all transfer proposals.
