@@ -37,7 +37,7 @@ contract SlowWallet {
     address public owner;
 
     // PROPOSALS
-    
+
     mapping (uint256 => TransferProposal) public proposals;
     uint256 public proposalsLength;
 
@@ -64,27 +64,6 @@ contract SlowWallet {
     modifier onlyOwner() {
         require(msg.sender == owner, "must be owner");
         _;
-    }
-
-    /// The earliest that funds could possibly move from this account,
-    /// expressed in seconds after the current block.
-    /// Do not call from a contract. 
-    function earliestPossibleTransfer() external view returns (uint256) {
-        uint256 minimumDelay = delay;
-        for (uint i = 0; i < proposalsLength; i++) {
-            if (proposals[i].closed) {
-                continue;
-            }
-            if (proposals[i].time < now) {
-                return 0;
-            }
-            // solium-disable-next-line security/no-block-members
-            uint256 proposalDelay = proposals[i].time - now;
-            if (proposalDelay < minimumDelay) {
-                minimumDelay = proposalDelay;
-            }
-        }
-        return minimumDelay;
     }
 
     /// Propose a new transfer, which can be confirmed after two weeks.
@@ -139,7 +118,7 @@ contract SlowWallet {
         emit TransferConfirmed(index, destination, value, proposals[index].notes);
 
         // Proceed with execution of transfer.
-        token.transfer(destination, value);
+        require(token.transfer(destination, value));
     }
 
     /// Throw unless the given transfer proposal exists and matches `destination` and `value`.
