@@ -12,7 +12,7 @@ contract ReserveRightsToken is ERC20Pausable {
   mapping (address => bool) public reserveTeamMemberOrEarlyInvestor;
   event AccountLocked(address indexed lockedAccount);
 
-  // Hard-coded addresses from the previous deployment, which should be locked and contain token allocations. 
+  // Hard-coded addresses from the previous deployment, which should be locked and contain token allocations.
   address[] previousAddresses = [
     0x8ad9c8ebe26eadab9251b8fc36cd06a1ec399a7f,
     0xb268c230720d16c69a61cbee24731e3b2a3330a1,

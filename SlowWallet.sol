@@ -75,6 +75,7 @@ contract SlowWallet {
         // so we are satisfied with this choice.
         // solium-disable-next-line security/no-block-members
         uint256 delayUntil = now + delay;
+        require(delayUntil >= now, "delay overflowed");
 
         proposals[proposalsLength] = TransferProposal({
             destination: destination,
@@ -89,17 +90,17 @@ contract SlowWallet {
     }
 
     /// Cancel a proposed transfer.
-    function cancel(uint256 index, address destination, uint256 value) external onlyOwner {
+    function cancel(uint256 index, address addr, uint256 value) external onlyOwner {
         // Check authorization.
-        requireMatchingOpenProposal(index, destination, value);
+        requireMatchingOpenProposal(index, addr, value);
 
         // Cancel transfer.
         proposals[index].closed = true;
-        emit TransferCancelled(index, destination, value, proposals[index].notes);
+        emit TransferCancelled(index, addr, value, proposals[index].notes);
     }
 
-    /// Cancel all transfer proposals.
-    function cancelAll() external onlyOwner {
+    /// Mark all proposals "void", in O(1).
+    function voidAll() external onlyOwner {
         proposalsLength = 0;
         emit AllTransfersCancelled();
     }
@@ -123,7 +124,7 @@ contract SlowWallet {
 
     /// Throw unless the given transfer proposal exists and matches `destination` and `value`.
     function requireMatchingOpenProposal(uint256 index, address destination, uint256 value) private view {
-        require(index < proposalsLength);
+        require(index < proposalsLength, "index too high, or transfer voided");
         require(!proposals[index].closed, "transfer already closed");
 
         // Slither reports "dangerous strict equality" for each of these, but it's OK.
