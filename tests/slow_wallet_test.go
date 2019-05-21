@@ -14,7 +14,7 @@ import (
 	rsrABI "github.com/reserve-protocol/rsr/abi"
 )
 
-var delayInSeconds = bigInt(60 * 60 * 24 * 14)
+var delayInSeconds = bigInt(60 * 60 * 24 * 28)
 
 func TestSlowWallet(t *testing.T) {
 	suite.Run(t, new(SlowWalletTestingSuite))
@@ -85,7 +85,7 @@ func (s *SlowWalletTestingSuite) TestAdminCanTransfer() {
 	s.requireTxFails(s.walletContract.Confirm(s.adminSigner, bigInt(0), recipient, amount))
 
 	// Advance time.
-	s.Require().NoError(s.node.(backend).AdjustTime(336 * time.Hour))
+	s.Require().NoError(s.node.(backend).AdjustTime(672 * time.Hour)) // 4 weeks
 
 	// Trying to confirm it should now succeed.
 	s.requireTx(s.walletContract.Confirm(s.adminSigner, bigInt(0), recipient, amount))(
@@ -115,7 +115,7 @@ func (s *SlowWalletTestingSuite) TestAdminCanCancelTransfer() {
 	)
 
 	// Advance time.
-	s.Require().NoError(s.node.(backend).AdjustTime(336 * time.Hour))
+	s.Require().NoError(s.node.(backend).AdjustTime(672 * time.Hour)) // 4 weeks
 
 	// Trying to confirm it should now fail, even though time has advanced.
 	s.requireTxFails(s.walletContract.Confirm(s.adminSigner, bigInt(0), recipient, amount))
@@ -238,7 +238,7 @@ func (s *SlowWalletTestingSuite) TestConfirm() {
 	s.requireTxFails(s.walletContract.Confirm(s.adminSigner, index, recipient, amount))
 
 	// Advance time.
-	s.Require().NoError(s.node.(backend).AdjustTime(336 * time.Hour))
+	s.Require().NoError(s.node.(backend).AdjustTime(672 * time.Hour))
 
 	// Trying to confirm as someone other than the admin should fail.
 	s.requireTxFails(s.walletContract.Confirm(s.signer, index, recipient, amount))
