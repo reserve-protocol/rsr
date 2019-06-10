@@ -33,7 +33,7 @@ contract SlowWallet {
     // DATA
 
     IERC20 public token;
-    uint256 public constant delay = 2 weeks;
+    uint256 public constant delay = 4 weeks;
     address public owner;
 
     // PROPOSALS
