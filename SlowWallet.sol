@@ -17,7 +17,7 @@ interface IERC20 {
 
 /// @title Time-delayed ERC-20 wallet contract.
 /// Can only transfer tokens after publicly recording the intention to do so
-/// at least two weeks in advance.
+/// at least four weeks in advance.
 contract SlowWallet {
 
     // TYPES
@@ -58,7 +58,7 @@ contract SlowWallet {
 
     constructor(address tokenAddress) public {
         token = IERC20(tokenAddress);
-        owner = msg.sender;
+        owner = 0xA7b123D54BcEc14b4206dAb796982a6d5aaA6770;
     }
 
     modifier onlyOwner() {
