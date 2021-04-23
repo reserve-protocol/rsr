@@ -58,7 +58,7 @@ contract SlowWallet {
 
     constructor(address tokenAddress) public {
         token = IERC20(tokenAddress);
-        owner = 0xA7b123D54BcEc14b4206dAb796982a6d5aaA6770;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
